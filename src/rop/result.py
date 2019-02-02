@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Callable, NoReturn
+from typing import Callable
 
 
 class Result:
@@ -39,26 +39,7 @@ class Result:
         return Result(True, "")
 
     def on_success(self, function: Callable[..., Result]) -> Result:
-        return function(self) if self.is_success else self
+        return function() if self.is_success else self
 
     def on_failure(self, function: Callable[..., Result]) -> Result:
-        return function(self) if self.is_failure else self
-
-
-def run() -> NoReturn:
-    result = success().on_success(failure)
-    print(f"Is success? {result.is_success}")
-
-
-def success() -> Result:
-    print('Success called!')
-    return Result.ok()
-
-
-def failure(result: Result) -> Result:
-    print('Failure called!')
-    return Result.fail('Error!')
-
-
-if __name__ == '__main__':
-    run()
+        return function() if self.is_failure else self
